@@ -15,8 +15,6 @@ export const Header = () => {
   const categories = useSelector((state) => state.Categories);
   const cart = useSelector((state) => state.Cart);
   const auth = useSelector((state) => state.Auth?.data);
-  const isAuth = useSelector((state) => isAuthenticated(auth?.token));
-  console.log(isAuth, "auth");
   useEffect(() => {
     dispatch(loadCategories(toast));
     dispatch(loadCartData(auth?.user, toast));
@@ -86,7 +84,7 @@ export const Header = () => {
                 </ul>
               </li>
 
-              {!isAuth ? (
+              {!isAuthenticated(auth?.token) ? (
                 <>
                   <li className="nav-item">
                     <NavLink to="/register" className="nav-link">
