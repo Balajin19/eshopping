@@ -43,7 +43,7 @@ export const Profile = () => {
                     className="form-control"
                     id="exampleInputName"
                     placeholder="Enter your Name"
-                    value={name}
+                    value={name || ""}
                     required
                     onChange={(e) => setName(e.target.value)}
                   />
@@ -54,7 +54,7 @@ export const Profile = () => {
                     className="form-control"
                     id="exampleInputEmail1"
                     placeholder="Enter your Email"
-                    value={email}
+                    value={email || ""}
                     required
                     disabled
                     onChange={(e) => setEmail(e.target.value)}
@@ -66,7 +66,7 @@ export const Profile = () => {
                     className="form-control"
                     id="exampleInputPassword1"
                     placeholder="Enter your Password"
-                    value={password}
+                    value={password || ""}
                     required
                     onChange={(e) => setPassword(e.target.value)}
                   />
@@ -77,7 +77,7 @@ export const Profile = () => {
                     className="form-control"
                     id="exampleInputPhone"
                     placeholder="Enter your Phone Number"
-                    value={phone}
+                    value={phone || ""}
                     required
                     onChange={(e) => setPhone(e.target.value)}
                   />
@@ -88,7 +88,7 @@ export const Profile = () => {
                     className="form-control"
                     id="exampleInputAddress"
                     placeholder="Enter your Address"
-                    value={address}
+                    value={address || ""}
                     required
                     onChange={(e) => setAddress(e.target.value)}
                   />

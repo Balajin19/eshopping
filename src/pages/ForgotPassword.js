@@ -64,9 +64,8 @@ export const ForgotPassword = () => {
             <input
               type="email"
               className="form-control"
-              id="exampleInputEmail1"
               placeholder="Enter your Email"
-              value={email}
+              value={email || ""}
               required
               onChange={(e) => setEmail(e.target.value)}
               disabled={access}
@@ -81,9 +80,8 @@ export const ForgotPassword = () => {
             <input
               type="text"
               className="form-control"
-              id="exampleInputEmail1"
               placeholder="Enter your OTP"
-              value={otp}
+              value={otp || ''}
               required
               onChange={(e) => setOtp(e.target.value)}
             />
@@ -100,7 +98,6 @@ export const ForgotPassword = () => {
             <input
               type="password"
               className="form-control"
-              id="exampleInputPassword1"
               placeholder="Enter New Password"
               required
             />
@@ -109,7 +106,6 @@ export const ForgotPassword = () => {
             <input
               type="password"
               className="form-control"
-              id="exampleInputPassword1"
               placeholder="Enter Confirm Password"
               required
             />

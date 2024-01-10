@@ -35,7 +35,7 @@ export const SearchInput = () => {
           className="form-control me-2 "
           type="search"
           placeholder="Search"
-          value={values?.keyword}
+          value={values?.keyword || ''}
           onChange={(e) => setValues({ keyword: e.target.value })}
         />
         <button className="p-1 bg-dark text-light w-50" type="submit">

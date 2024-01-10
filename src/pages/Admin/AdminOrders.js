@@ -90,7 +90,7 @@ export const AdminOrders = () => {
                                   onChange={(status) =>
                                     handleChange(value?._id, status)
                                   }
-                                  defaultValue={value?.status}
+                                  defaultValue={value?.status || ""}
                                 >
                                   {status.map((st, index) => {
                                     return (

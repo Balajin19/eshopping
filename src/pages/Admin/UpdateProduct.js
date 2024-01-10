@@ -101,7 +101,7 @@ export const UpdateProduct = () => {
                 showSearch
                 className="form-select mb-3"
                 onChange={(value) => setCategory(value)}
-                value={category}
+                value={category || ""}
               >
                 {categories?.data?.map((value) => {
                   return (
@@ -138,9 +138,8 @@ export const UpdateProduct = () => {
                   <div className="text-center">
                     <img
                       src={
-                        id
-                          && `http://localhost:8000/product/product-photo/${id}`
-                         
+                        id &&
+                        `http://localhost:8000/product/product-photo/${id}`
                       }
                       alt="product"
                       height={"200px"}
@@ -154,7 +153,7 @@ export const UpdateProduct = () => {
                   type="text"
                   placeholder="Name"
                   className="form-control"
-                  value={name}
+                  value={name || ""}
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
@@ -163,7 +162,7 @@ export const UpdateProduct = () => {
                   type="text"
                   placeholder="Decription"
                   className="form-control"
-                  value={description}
+                  value={description || ""}
                   onChange={(e) => setDescription(e.target.value)}
                 ></textarea>
               </div>
@@ -172,7 +171,7 @@ export const UpdateProduct = () => {
                   type="number"
                   placeholder="Price"
                   className="form-control"
-                  value={price}
+                  value={price || ""}
                   onChange={(e) => setPrice(e.target.value)}
                 />
               </div>
@@ -181,7 +180,7 @@ export const UpdateProduct = () => {
                   type="number"
                   placeholder="Quantity"
                   className="form-control"
-                  value={quantity}
+                  value={quantity || ""}
                   onChange={(e) => setQuantity(e.target.value)}
                 />
               </div>
@@ -192,7 +191,7 @@ export const UpdateProduct = () => {
                   size="large"
                   showSearch
                   className="form-select mb-3"
-                  value={shipping ? "Yes" : "No"}
+                  value={shipping ? "Yes" : "No" || ""}
                   onChange={(value) => setShipping(value)}
                 >
                   <Option value="0">No</Option>
