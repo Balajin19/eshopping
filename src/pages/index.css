@@ -1,0 +1,118 @@
+/* ---Page Not Found CSS--- */
+
+.pnf {
+  display: flex;
+  min-height: 65vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.pnf-title {
+  font-size: 100px;
+  font-weight: 700;
+}
+.pnf-heading {
+  font-weight: normal;
+}
+.pnf-btn {
+  color: black;
+  border: 1px solid black;
+  padding: 10px;
+  margin-top: 10px;
+  text-decoration: none;
+}
+
+/* ---Contact CSS--- */
+
+.contactus {
+  display: flex;
+  min-height: 70vh;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---Form CSS--- */
+
+.container {
+  min-height: 70vh;
+}
+.form-container {
+  display: flex;
+  min-height: 70vh;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #ffdee9;
+  background-image: linear-gradient(0deg, #ffdee9 0%, #b5fffc 100%);
+}
+
+.form-container .form {
+  width: 300px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.form-container .form h3 {
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+.form-container .form input {
+  border: none;
+  border-bottom: 1px solid #000;
+  border-radius: 0;
+}
+
+.form-container .form .btn {
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: #000;
+  color: white;
+  width: 100%;
+}
+
+.form-container .form .btn:hover {
+  border: 1px solid black;
+  background: linear-gradient(to right, #434343, #000000);
+}
+
+/* ---Products CSS--- */
+.product-link {
+  text-decoration: none !important;
+  color: black !important;
+}
+.card:hover img {
+  cursor: pointer;
+  transform: scale(0.9);
+  transition: transform 0.4s;
+}
+
+/* --Quantity Button-- */
+
+.qty-btn {
+  border: none;
+  border: 1px solid rgb(240, 159, 8);
+  border-radius: 3px;
+  font-weight: 600;
+  color: black;
+  font-size: 15px;
+  background-color: rgb(240, 159, 8);
+  height: 29px;
+  width: 20px;
+  margin: 0px 10px;
+}
+
+/* ---Banner Image CSS--- */
+
+.banner-img {
+  width: 100%;
+  object-fit: contain;
+  margin-bottom: 15px;
+}
