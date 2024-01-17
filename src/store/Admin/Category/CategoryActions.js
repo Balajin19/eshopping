@@ -2,6 +2,7 @@ import axios from "axios";
 axios.defaults.headers.common["Authorization"] = localStorage.getItem("token")
   ? JSON.parse(localStorage.getItem("token"))
   : "";
+  const API_URL = process.env.REACT_APP_API_URL;
 export const getCategoryData = () => {
   return {
     type: "GET_CATEGORY_DATA",
@@ -55,7 +56,7 @@ export const loadCategories = (toast) => {
   return async (dispatch) => {
     dispatch(getCategoryData());
     await axios
-      .get("http://localhost:8000/category/all-categories")
+      .get(API_URL+"/category/all-categories")
       .then((res) => {
         dispatch(getCategoryDataSuccess(res.data.allCategories));
       })
@@ -65,71 +66,71 @@ export const loadCategories = (toast) => {
       });
   };
 };
-export const createCategory = (data, toast) => {
-  return async (dispatch) => {
-    dispatch(createCategoryData(data));
-    await axios
-      .post("http://localhost:8000/category/create-category", data)
-      .then((res) => {
-               dispatch(loadCategories(toast));
-        toast.success(`${data.name} category added`);
-      })
-      .catch((err) => {
-        dispatch(error(err));
-        if (err.response?.data) {
-          toast.error(
-            err.response?.data?.error?.message || "Something went wrong"
-          );
-        } else {
-          toast.error("Something went wrong in creating categories");
-        }
-        dispatch(loadCategories(toast));
-      });
-  };
-};
-export const updateCategory = (data, toast, selected) => {
-  return async (dispatch) => {
-    dispatch(updateCategoryData(data));
-    await axios
-      .put(
-        `http://localhost:8000/category/update-category/${selected._id}`,
-        data
-      )
-      .then((res) => {
-        dispatch(loadCategories(toast));
-        toast.success(`${data.name} category updated`);
-      })
-      .catch((err) => {
-        dispatch(error(err));
-        if (err.response?.data) {
-          toast.error(
-            err.response?.data?.error?.message || "Something went wrong"
-          );
-        } 
-        dispatch(loadCategories(toast));
-      });
-  };
-};
-export const deleteCategory = (data, id, toast) => {
-  return async (dispatch) => {
-    dispatch(deleteCategoryData());
-    await axios
-      .delete(`http://localhost:8000/category/delete-category/${id}`)
-      .then((res) => {
+// export const createCategory = (data, toast) => {
+//   return async (dispatch) => {
+//     dispatch(createCategoryData(data));
+//     await axios
+//       .post("http://localhost:8000/category/create-category", data)
+//       .then((res) => {
+//                dispatch(loadCategories(toast));
+//         toast.success(`${data.name} category added`);
+//       })
+//       .catch((err) => {
+//         dispatch(error(err));
+//         if (err.response?.data) {
+//           toast.error(
+//             err.response?.data?.error?.message || "Something went wrong"
+//           );
+//         } else {
+//           toast.error("Something went wrong in creating categories");
+//         }
+//         dispatch(loadCategories(toast));
+//       });
+//   };
+// };
+// export const updateCategory = (data, toast, selected) => {
+//   return async (dispatch) => {
+//     dispatch(updateCategoryData(data));
+//     await axios
+//       .put(
+//         `http://localhost:8000/category/update-category/${selected._id}`,
+//         data
+//       )
+//       .then((res) => {
+//         dispatch(loadCategories(toast));
+//         toast.success(`${data.name} category updated`);
+//       })
+//       .catch((err) => {
+//         dispatch(error(err));
+//         if (err.response?.data) {
+//           toast.error(
+//             err.response?.data?.error?.message || "Something went wrong"
+//           );
+//         } 
+//         dispatch(loadCategories(toast));
+//       });
+//   };
+// };
+// export const deleteCategory = (data, id, toast) => {
+//   return async (dispatch) => {
+//     dispatch(deleteCategoryData());
+//     await axios
+//       .delete(`http://localhost:8000/category/delete-category/${id}`)
+//       .then((res) => {
       
-        dispatch(loadCategories(toast));
-        toast.success(`${data} category deleted`);
-      })
-      .catch((err) => {
-        dispatch(error(err));
-        if (err.response?.data) {
-          toast.error(
-            err.response?.data?.error?.message || "Something went wrong"
-          );
-        } else {
-          toast.error("Something went wrong in deleting categories");
-        }
-        dispatch(loadCategories(toast));
-      });
-  };
-};
+//         dispatch(loadCategories(toast));
+//         toast.success(`${data} category deleted`);
+//       })
+//       .catch((err) => {
+//         dispatch(error(err));
+//         if (err.response?.data) {
+//           toast.error(
+//             err.response?.data?.error?.message || "Something went wrong"
+//           );
+//         } else {
+//           toast.error("Something went wrong in deleting categories");
+//         }
+//         dispatch(loadCategories(toast));
+//       });
+//   };
+// };

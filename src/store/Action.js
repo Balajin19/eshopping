@@ -1,5 +1,5 @@
 import axios from "axios";
-
+const API_URL = process.env.REACT_APP_API_URL;
 const token = localStorage.getItem("token")
   ? JSON.parse(localStorage.getItem("token"))
   : "";
@@ -62,18 +62,23 @@ export const error = (value) => {
   };
 };
 
-export const loadData = () => {
+export const loadData = (toast, navigate) => {
   return async (dispatch) => {
     dispatch(load());
     if (token) {
       await axios
-        .get("http://localhost:8000/user", {
+        .get(API_URL + "/user", {
           headers: { Authorization: token },
         })
         .then((res) => {
           dispatch(loadSuccess(res.data));
         })
         .catch((err) => {
+          if (err.response?.data?.error?.message === "jwt expired") {
+            toast.error("Session expired please login!");
+            localStorage.removeItem("token");
+            navigate("/login");
+          }
           dispatch(error(err));
         });
     }
@@ -84,7 +89,7 @@ export const registerData = (data, navigate, toast) => {
   return async (dispatch) => {
     dispatch(register(data));
     await axios
-      .post("http://localhost:8000/register", data)
+      .post(API_URL + "/register", data)
       .then((res) => {
         dispatch(registerSuccess(res.data));
         toast.success("Registered Successfully!");
@@ -104,7 +109,7 @@ export const loginData = (data, navigate, toast, location) => {
   return async (dispatch) => {
     dispatch(login(data));
     await axios
-      .post("http://localhost:8000/login", data)
+      .post(API_URL + "/login", data)
       .then((res) => {
         toast.success("Login Successfully!");
         localStorage.setItem("token", JSON.stringify(res.data.token));
@@ -124,10 +129,10 @@ export const loginData = (data, navigate, toast, location) => {
 export const updatedProfile = (value, navigate, toast) => {
   return async (dispatch) => {
     dispatch(updateData(value));
-    const { data } = await axios
-      .put("http://localhost:8000/update-profile", value)
+    await axios
+      .put(API_URL + "/update-profile", value)
       .then((res) => {
-        if (data.success) {
+        if (res.data.success) {
           dispatch(updateDataSuccess(res.data));
           toast.success("Profile updated Successfully!");
           navigate("/dashboard/user");

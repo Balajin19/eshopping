@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { AdminMenu } from "../../components/Layout/AdminMenu";
 import { SpinnerPage } from "../SpinnerPage";
+const API_URL = process.env.REACT_APP_API_URL;
 const { Option } = Select;
 export const AdminOrders = () => {
   const auth = useSelector((state) => state.Auth?.data);
@@ -26,7 +27,7 @@ export const AdminOrders = () => {
   const getAllOrders = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get("http://localhost:8000/order/allOrders");
+      const { data } = await axios.get(API_URL + "/order/allOrders");
       setLoading(false);
       setOrders(data?.orders);
     } catch (err) {
@@ -36,12 +37,9 @@ export const AdminOrders = () => {
   };
   const handleChange = async (id, value) => {
     try {
-      const { data } = await axios.put(
-        `http://localhost:8000/order/status/${id}`,
-        {
-          status: value,
-        }
-      );
+      const { data } = await axios.put(`${API_URL}/order/status/${id}`, {
+        status: value,
+      });
       if (data.success) getAllOrders();
     } catch (err) {
       setError(err);
@@ -128,7 +126,7 @@ export const AdminOrders = () => {
                                   <img
                                     src={
                                       item &&
-                                      `http://localhost:8000/product/product-photo/${item?._id}`
+                                      `${API_URL}/product-photo/${item?._id}`
                                     }
                                     className="card-img-top"
                                     alt={item.name}

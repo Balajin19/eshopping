@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+const API_URL = process.env.REACT_APP_API_URL;
 export const Register = () => {
   const [name, setName] = useState();
   const [email, setEmail] = useState();
@@ -20,10 +21,7 @@ export const Register = () => {
       } else {
         datas = { name, email, password, phone, address, role: 0 };
       }
-      const { data } = await axios.post(
-        "http://localhost:8000/register",
-        datas
-      );
+      const { data } = await axios.post(API_URL + "/register", datas);
       if (data.success) {
         toast.success("Registered Successfully!");
         navigate("/");

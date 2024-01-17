@@ -7,6 +7,7 @@ import { logout } from "../store/Action";
 import { SpinnerPage } from "./SpinnerPage";
 import { toast } from "react-hot-toast";
 import { loadCartData } from "../store/CartActions";
+const API_URL = process.env.REACT_APP_API_URL;
 export const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ export const Cart = () => {
     try {
       setLoading(true);
       const { data } = await axios.patch(
-        `http://localhost:8000/delete-cartItem/${auth?.user?._id}`,
+        `${API_URL}/delete-cartItem/${auth?.user?._id}`,
         { _id: value._id }
       );
       dispatch(loadCartData(auth.user, toast));
@@ -39,7 +40,7 @@ export const Cart = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `http://localhost:8000/get-cartItems/${auth?.user?._id}`
+        `${API_URL}/get-cartItems/${auth?.user?._id}`
       );
       setLoading(false);
       setCart(data.user?.cartItems);
@@ -61,7 +62,7 @@ export const Cart = () => {
     try {
       const cartItems = cart.map((value) => value._id);
       const { data } = await axios.post(
-        `http://localhost:8000/order/addOrder/${auth?.user?._id}`,
+        `${API_URL}/order/addOrder/${auth?.user?._id}`,
         { cartItems, value }
       );
       if (data.success) {
@@ -69,13 +70,12 @@ export const Cart = () => {
       }
     } catch (err) {
       console.log(err);
-      if (err.response?.data?.error?.message) {
-        toast.error("Something went wrong");
-      } else {
-        toast.error("Session expired please login");
+      if (err.response?.data?.error?.message === "jwt expired") {
+        toast.error("Session expired please login!");
         localStorage.removeItem("token");
-        dispatch(logout());
         navigate("/login");
+      } else {
+        toast.error("Something went wrong");
       }
     }
   };
@@ -119,7 +119,7 @@ export const Cart = () => {
                         <img
                           src={
                             value &&
-                            `http://localhost:8000/product/product-photo/${value?._id}`
+                            `${API_URL}/product/product-photo/${value?._id}`
                           }
                           className="card-img-top"
                           alt={value.name}

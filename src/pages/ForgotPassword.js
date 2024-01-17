@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-
+const API_URL = process.env.REACT_APP_API_URL;
 export const ForgotPassword = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -27,7 +27,7 @@ export const ForgotPassword = () => {
     e.preventDefault();
     setCount(60);
     try {
-      const { data } = await axios.post("http://localhost:8000/generate-otp", {
+      const { data } = await axios.post(API_URL + "/generate-otp", {
         email,
       });
       if (data.success) {
@@ -45,7 +45,7 @@ export const ForgotPassword = () => {
   const OtpSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post("http://localhost:8000/verify-otp", {
+      const { data } = await axios.post(API_URL + "/verify-otp", {
         otp,
       });
       if (data.verify) {
@@ -63,13 +63,10 @@ export const ForgotPassword = () => {
   const handlePassword = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.put(
-        "http://localhost:8000/change-password",
-        {
-          email,
-          password,
-        }
-      );
+      const { data } = await axios.put(API_URL + "/change-password", {
+        email,
+        password,
+      });
       if (data.success) {
         toast.success("Password changed successfully");
         navigate("/login");
@@ -155,7 +152,6 @@ export const ForgotPassword = () => {
         </form>
       </div>
     </div>
-    
   );
 };
  

@@ -1,6 +1,6 @@
 export const initialState = {
-  data: [],
   error: "",
+  data: [],
   keyword: "",
   results: [],
 };

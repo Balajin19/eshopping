@@ -6,6 +6,7 @@ import { AdminMenu } from "../../components/Layout/AdminMenu";
 import { Modal } from "antd";
 import axios from "axios";
 import { loadCategories } from "../../store/Admin/Category/CategoryActions";
+const API_URL = process.env.REACT_APP_API_URL;
 export const CreateCategory = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [name, setName] = useState("");
@@ -22,7 +23,7 @@ export const CreateCategory = () => {
     try {
       const value = { name };
       const { data } = await axios.post(
-        "http://localhost:8000/category/create-category",
+        API_URL + "/category/create-category",
         value
       );
       if (data.success) {
@@ -46,7 +47,7 @@ export const CreateCategory = () => {
     const updatedCategory = { name: value };
     try {
       const { data } = await axios.put(
-        `http://localhost:8000/category/update-category/${selected._id}`,
+        `${API_URL}/category/update-category/${selected._id}`,
         updatedCategory
       );
       if (data.success) {
@@ -70,7 +71,7 @@ export const CreateCategory = () => {
   const handleDelete = async (name, id) => {
     try {
       const { data } = await axios.delete(
-        `http://localhost:8000/category/delete-category/${id}`
+        `${API_URL}/category/delete-category/${id}`
       );
       if (data.success) {
         dispatch(loadCategories(toast));
@@ -142,7 +143,7 @@ export const CreateCategory = () => {
             <Modal
               onCancel={() => setIsModalOpen(false)}
               footer={null}
-              visible={isModalOpen}
+              open={isModalOpen}
             >
               <CategoryForm
                 name={value}

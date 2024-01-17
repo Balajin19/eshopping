@@ -5,13 +5,13 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { UserMenu } from "../../components/Layout/UserMenu";
 import { SpinnerPage } from "../SpinnerPage";
-
+const API_URL = process.env.REACT_APP_API_URL;
 export const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
   const auth = useSelector((state) => state.Auth?.data);
-  
+
   useEffect(() => {
     loadOrders();
   }, [auth?.user?._id]);
@@ -20,7 +20,7 @@ export const Orders = () => {
       if (auth?.user) {
         setLoading(true);
         const { data } = await axios.get(
-          `http://localhost:8000/order/getOrders/${auth?.user?._id}`
+          `${API_URL}/order/getOrders/${auth?.user?._id}`
         );
         setLoading(false);
         setOrders(data?.orders);
@@ -36,7 +36,7 @@ export const Orders = () => {
       if (value?.status !== "Cancel") {
         setLoading(true);
         const { data } = await axios.delete(
-          `http://localhost:8000/order/cancel-Orders/${value?._id}`
+          `${API_URL}/order/cancel-Orders/${value?._id}`
         );
         if (data.success) {
           setLoading(false);
@@ -46,7 +46,7 @@ export const Orders = () => {
       }
       setLoading(true);
       const { data } = await axios.delete(
-        `http://localhost:8000/order/remove-Orders/${value?._id}`
+        `${API_URL}/order/remove-Orders/${value?._id}`
       );
       if (data.success) {
         setLoading(false);
@@ -131,7 +131,7 @@ export const Orders = () => {
                                   <img
                                     src={
                                       item &&
-                                      `http://localhost:8000/product/product-photo/${item?._id}`
+                                      `${API_URL}/product/product-photo/${item?._id}`
                                     }
                                     className="card-img-top"
                                     alt={item.name}

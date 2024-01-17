@@ -23,19 +23,17 @@ export const Categories = () => {
             <>
               {categories?.data?.map((value) => {
                 return (
-                  <>
-                    <div
-                      className="col-md-4 col-6 mt-5 mb-3 gx-3 gy-3"
-                      key={value._id}
+                  <div
+                    className="col-md-4 col-6 mt-5 mb-3 gx-3 gy-3"
+                    key={value._id}
+                  >
+                    <Link
+                      to={`/category/${value.slug}`}
+                      className="btn btn-secondary p-4 w-100 fs-4"
                     >
-                      <Link
-                        to={`/category/${value.slug}`}
-                        className="btn btn-secondary p-4 w-100 fs-4"
-                      >
-                        {value.name.toUpperCase()}
-                      </Link>
-                    </div>
-                  </>
+                      {value.name.toUpperCase()}
+                    </Link>
+                  </div>
                 );
               })}
             </>

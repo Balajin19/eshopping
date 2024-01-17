@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AdminMenu } from "../../components/Layout/AdminMenu";
 import { loadCategories } from "../../store/Admin/Category/CategoryActions";
+const API_URL = process.env.REACT_APP_API_URL;
 const { Option } = Select;
 export const CreateProduct = () => {
   const categories = useSelector((state) => state.Categories);
@@ -34,7 +35,7 @@ export const CreateProduct = () => {
       product.append("category", category);
       product.append("photo", photo);
       const { data } = await axios.post(
-        "http://localhost:8000/product/create-product",
+        API_URL + "/product/create-product",
         product
       );
       if (data?.success) {
@@ -43,9 +44,7 @@ export const CreateProduct = () => {
       } else {
         toast.error(data?.message);
       }
-    } catch ( err )
-    {
-      
+    } catch (err) {
       toast.error("Something went wrong");
     }
   };
@@ -144,7 +143,6 @@ export const CreateProduct = () => {
                   size="large"
                   showSearch
                   className="form-select mb-3"
-                  value={shipping || ""}
                   onChange={(value) => SetShipping(value)}
                 >
                   <Option value="0">No</Option>

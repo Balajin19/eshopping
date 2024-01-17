@@ -1,6 +1,6 @@
 import "./App.css";
 import axios from "axios";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
@@ -13,7 +13,7 @@ import { Footer } from "./components/Footer";
 import { Contact } from "./pages/Contact";
 import { About } from "./pages/About";
 import { Policy } from "./pages/Policy";
-import { Toaster } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import { PrivateRoute } from "./components/Route/PrivateRoute";
 import { AdminRoute } from "./components/Route/AdminRoute";
@@ -37,8 +37,10 @@ function App() {
     ? JSON.parse(localStorage.getItem("token"))
     : "";
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
-    if (JSON.parse(localStorage.getItem("token"))) dispatch(loadData());
+    if (JSON.parse(localStorage.getItem("token")))
+      dispatch(loadData(toast, navigate));
   }, [dispatch]);
   return (
     <div className="App">

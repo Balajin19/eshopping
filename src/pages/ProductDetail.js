@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { addCart } from "../store/CartActions";
 import { SpinnerPage } from "./SpinnerPage";
-
+const API_URL = process.env.REACT_APP_API_URL;
 export const ProductDetail = () => {
   const [product, setProduct] = useState();
   const [relatedProducts, setRelatedProducts] = useState();
@@ -20,7 +20,7 @@ export const ProductDetail = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `http://localhost:8000/product/get-product/${params.slug}`
+        `${API_URL}/product/get-product/${params.slug}`
       );
       setLoading(false);
       getSimilarProducts(data.product?._id, data.product?.category?._id);
@@ -37,7 +37,7 @@ export const ProductDetail = () => {
   const getSimilarProducts = async (pid, cid) => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8000/product/related-products/${pid}/${cid}`
+        `${API_URL}/product/related-products/${pid}/${cid}`
       );
       if (data?.success) {
         setRelatedProducts(data?.relatedProducts);
@@ -74,10 +74,7 @@ export const ProductDetail = () => {
           <div className="row mt-4 w-100">
             <div className="col-md-6">
               <img
-                src={
-                  product &&
-                  `http://localhost:8000/product/product-photo/${product?._id}`
-                }
+                src={product && `${API_URL}/product/product-photo/${product?._id}`}
                 className="card-img-top"
                 alt={product?.name}
                 width={"350px"}
@@ -117,10 +114,7 @@ export const ProductDetail = () => {
                     key={item._id}
                   >
                     <img
-                      src={
-                        item &&
-                        `http://localhost:8000/product/product-photo/${item?._id}`
-                      }
+                      src={item && `${API_URL}/product/product-photo/${item?._id}`}
                       className="card-img-top"
                       alt={item.name}
                       style={{ aspectRatio: "2/2", objectFit: "cover" }}

@@ -7,7 +7,7 @@ import { Select } from "antd";
 import axios from "axios";
 import { loadCategories } from "../../store/Admin/Category/CategoryActions";
 const { Option } = Select;
-
+const API_URL = process.env.REACT_APP_API_URL;
 export const UpdateProduct = () => {
   const dispatch = useDispatch();
   const params = useParams();
@@ -25,7 +25,7 @@ export const UpdateProduct = () => {
   const getProduct = async () => {
     dispatch(loadCategories());
     const { data } = await axios.get(
-      `http://localhost:8000/product/get-product/${params.slug}`
+      `${API_URL}/product/get-product/${params.slug}`
     );
     setId(data.product?._id);
     setName(data.product?.name);
@@ -52,7 +52,7 @@ export const UpdateProduct = () => {
       photo && product.append("photo", photo);
       e.preventDefault();
       const { data } = await axios.put(
-        `http://localhost:8000/product/update-product/${id}`,
+        `${API_URL}/product/update-product/${id}`,
         product
       );
       if (data?.success) {
@@ -71,7 +71,7 @@ export const UpdateProduct = () => {
       const answer = window.confirm("Are you sure to delete the product?");
       if (!answer) return;
       const { data } = await axios.delete(
-        `http://localhost:8000/product/delete-product/${id}`
+        `${API_URL}/product/delete-product/${id}`
       );
       if (data?.success) {
         toast.success("Product deleted Successfully");
@@ -137,10 +137,7 @@ export const UpdateProduct = () => {
                 ) : (
                   <div className="text-center">
                     <img
-                      src={
-                        id &&
-                        `http://localhost:8000/product/product-photo/${id}`
-                      }
+                      src={id && `${API_URL}/product/product-photo/${id}`}
                       alt="product"
                       height={"200px"}
                       className="img img-responsive"

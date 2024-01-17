@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { addCart } from "../store/CartActions";
 import { SpinnerPage } from "./SpinnerPage";
+const API_URL = process.env.REACT_APP_API_URL;
 
 export const CategoryProduct = () => {
   const params = useParams();
@@ -20,7 +21,7 @@ export const CategoryProduct = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `http://localhost:8000/product/product-category/${params.slug}`
+        `${API_URL}/product/product-category/${params.slug}`
       );
       setLoading(false);
       setProducts(data?.products);
@@ -57,8 +58,8 @@ export const CategoryProduct = () => {
           <h6 className="text-center">{products?.length} result found</h6>
           <div className="row">
             {products?.length > 0 ? (
-              <div className="col-lg-12 offset-1">
-                <div className="d-flex flex-wrap">
+              <div className="col-12 offset-1 m-0 mb-5">
+                <div className="d-flex flex-wrap justify-content-center align-items-center">
                   <>
                     {products?.map((item) => {
                       return (
@@ -68,20 +69,26 @@ export const CategoryProduct = () => {
                           key={item._id}
                         >
                           <img
-                            src={item&&`http://localhost:8000/product/product-photo/${item?._id}`}
+                            src={
+                              item &&
+                              `${API_URL}/product/product-photo/${item?._id}`
+                            }
                             className="card-img-top"
                             alt={item.name}
-                            style={{ aspectRatio: "4/2", objectFit: "cover" }}
+                            style={{ aspectRatio: "2/2", objectFit: "cover" }}
                           />
                           <div className="card-body">
                             <div className="card-title d-flex flex-row justify-content-between">
-                              <h5>{item.name}</h5>
+                              <h5>
+                                {item.name.length > 16
+                                  ? `${item.name?.substring(0, 16)}...`
+                                  : item.name}
+                              </h5>
                               <h5 className="text-success">
                                 &#8377; {item.price}
                               </h5>
                             </div>
                             <p className="card-text">
-                              {/* {item.description.substring(0, 30)}... */}
                               {item.description.length > 30
                                 ? `${item.description?.substring(0, 30)}...`
                                 : item.description}
@@ -121,20 +128,6 @@ export const CategoryProduct = () => {
                 </div>
               </div>
             )}
-            {/* 
-          <div className="m-2 p-3">
-            {products && products.length < total && (
-              <button
-                className="btn btn-warning"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setPage(page + 1);
-                }}
-              >
-                {loading ? "Loading..." : "Loadmore"}
-              </button>
-            )}
-          </div> */}
           </div>
         </>
       )}

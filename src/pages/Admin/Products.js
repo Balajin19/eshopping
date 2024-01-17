@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { AdminMenu } from "../../components/Layout/AdminMenu";
 import { SpinnerPage } from "../SpinnerPage";
-
+const API_URL = process.env.REACT_APP_API_URL;
 export const Products = () => {
   const auth = useSelector((state) => state.Auth?.data);
   const [loading, setLoading] = useState(false);
@@ -17,9 +17,7 @@ export const Products = () => {
   const loadProducts = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(
-        "http://localhost:8000/product/all-products"
-      );
+      const { data } = await axios.get(API_URL + "/product/all-products");
       setLoading(false);
       setProducts(data.allProducts);
     } catch (err) {
@@ -65,7 +63,7 @@ export const Products = () => {
                             <img
                               src={
                                 item &&
-                                `http://localhost:8000/product/product-photo/${item?._id}`
+                                `${API_URL}/product/product-photo/${item?._id}`
                               }
                               className="card-img-top"
                               alt={item.name}

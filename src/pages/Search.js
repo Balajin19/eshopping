@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+const API_URL = process.env.REACT_APP_API_URL;
 export const Search = () => {
   const navigate = useNavigate();
   const searchData = useSelector((state) => state.Products);
@@ -11,9 +11,9 @@ export const Search = () => {
         <h6 className="text-center">
           {searchData.results?.length < 1
             ? "No Products Found"
-            : `Found ${searchData.results?.searchProducts?.length}`}
+            : `Found ${searchData.results?.searchProducts?.length} products`}
         </h6>
-        <div className="d-flex flex-wrap mt-4">
+        <div className="d-flex flex-wrap justify-content-center align-items-center mt-4 mb-5">
           {searchData.results?.searchProducts?.map((item) => {
             return (
               <div
@@ -22,18 +22,25 @@ export const Search = () => {
                 key={item._id}
               >
                 <img
-                  src={item&&`http://localhost:8000/product/product-photo/${item?._id}`}
+                  src={
+                    item &&
+                    `${API_URL}/product/product-photo/${item?._id}`
+                  }
                   className="card-img-top"
                   alt={item.name}
-                  style={{ aspectRatio: "4/2", objectFit: "cover" }}
+                  style={{ aspectRatio: "2/2", objectFit: "cover" }}
                 />
                 <div className="card-body">
                   <div className="card-title d-flex flex-row justify-content-between">
-                    <h5>{item.name}</h5>
+                    <h5>
+                      {item.name.length > 16
+                        ? `${item.name?.substring(0, 16)}...`
+                        : item.name}
+                    </h5>
                     <h5 className="text-success">&#8377; {item.price}</h5>
                   </div>
                   <p className="card-text">
-                                       {item.description.length > 30
+                    {item.description.length > 30
                       ? `${item.description?.substring(0, 30)}...`
                       : item.description}
                   </p>

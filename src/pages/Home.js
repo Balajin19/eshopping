@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Prices } from "../components/Prices";
 import { addCart } from "../store/CartActions";
 import { SpinnerPage } from "./SpinnerPage";
+const API_URL = process.env.REACT_APP_API_URL;
 export const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -50,9 +51,7 @@ export const Home = () => {
   const allProducts = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(
-        `http://localhost:8000/product/product-list/${page}`
-      );
+      const { data } = await axios.get(`${API_URL}/product/product-list/${page}`);
       setLoading(false);
       if (data?.success) {
         setProducts(data.products);
@@ -68,7 +67,7 @@ export const Home = () => {
     try {
       setLoadProducts(true);
       const { data } = await axios.get(
-        `http://localhost:8000/product/product-list/${page}`
+        `${API_URL}/product/product-list/${page}`
       );
       setLoadProducts(false);
       if (data?.success) {
@@ -83,10 +82,10 @@ export const Home = () => {
   };
   const filterProducts = async () => {
     try {
-      const { data } = await axios.post(
-        "http://localhost:8000/product/product-filters",
-        { checked, radio }
-      );
+      const { data } = await axios.post(API_URL + "/product/product-filters", {
+        checked,
+        radio,
+      });
       if (data?.success) {
         setProducts(data.products);
       } else {
@@ -98,9 +97,7 @@ export const Home = () => {
   };
   const getTotal = async () => {
     try {
-      const { data } = await axios.get(
-        "http://localhost:8000/product/product-count"
-      );
+      const { data } = await axios.get(API_URL + "/product/product-count");
 
       if (data?.success) {
         setTotal(data.total);
@@ -185,7 +182,7 @@ export const Home = () => {
                           <img
                             src={
                               item &&
-                              `http://localhost:8000/product/product-photo/${item?._id}`
+                              `${API_URL}/product/product-photo/${item?._id}`
                             }
                             className="card-img-top"
                             alt={item.name}
