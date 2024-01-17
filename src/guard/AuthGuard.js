@@ -1,7 +1,7 @@
 import { loginSuccess, logout } from "../store/Action";
 
-export const isAuthenticated = (token) => {
-  if (token) return true;
+export const isAuthenticated = () => {
+  if (JSON.parse(localStorage.getItem("token"))) return true;
    return false;
 };
 

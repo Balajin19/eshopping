@@ -116,3 +116,53 @@
   object-fit: contain;
   margin-bottom: 15px;
 }
+
+/* ---Resend OTP button CSS--- */
+
+
+.resendOtp-btn {
+  border: none;
+  padding: 0;
+  margin: 0;
+  background-color: white;
+  color: blue;
+  text-decoration: underline;
+  margin-bottom: 5px;
+}
+
+.resendOtp-btn:disabled {
+  color: rgb(94, 133, 241);
+}
+
+
+
+.order-btn{
+  padding: 7px;
+  background-color: #0d6efd;
+  color: white;
+  border: 1px solid #0d6efd;
+  border-radius: 3px;
+}
+.order-btn a{
+  text-decoration: none;
+  color: white;
+}
+.mail{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(248, 245, 245, 0.904);;
+  background-color: rgba(248, 245, 245, 0.904);
+}
+.mail .container{
+  width: 50%;
+  border: 1px solid white;
+  border-radius: 3px;
+  margin: 5%;
+  padding: 20px;
+  background-color: white;
+}
+.order-details{
+  border-right: 2px solid rgb(233, 231, 231);
+}

@@ -1,7 +1,7 @@
 import "./App.css";
 import axios from "axios";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
@@ -33,14 +33,13 @@ import { CategoryProduct } from "./pages/CategoryProduct";
 import { AdminOrders } from "./pages/Admin/AdminOrders";
 import { isAuthenticated } from "./guard/AuthGuard";
 function App() {
-  const auth = useSelector((state) => state.Auth?.data);
   axios.defaults.headers.common["Authorization"] = localStorage.getItem("token")
     ? JSON.parse(localStorage.getItem("token"))
     : "";
   const dispatch = useDispatch();
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("token"))) dispatch(loadData());
-  }, [auth?.token, dispatch]);
+  }, [dispatch]);
   return (
     <div className="App">
       <Toaster />
@@ -49,15 +48,11 @@ function App() {
         <Route path="/" exact element={<Home />}></Route>
         <Route
           path="/login"
-          element={
-            !isAuthenticated(auth?.token) ? <Login /> : <Navigate to="/" />
-          }
+          element={!isAuthenticated() ? <Login /> : <Navigate to="/" />}
         ></Route>
         <Route
           path="/register"
-          element={
-            !isAuthenticated(auth?.token) ? <Register /> : <Navigate to="/" />
-          }
+          element={!isAuthenticated() ? <Register /> : <Navigate to="/" />}
         ></Route>
 
         <Route path="/search" element={<Search />} />

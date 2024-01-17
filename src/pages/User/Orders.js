@@ -11,18 +11,47 @@ export const Orders = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
   const auth = useSelector((state) => state.Auth?.data);
+  
   useEffect(() => {
     loadOrders();
-  }, [auth?.token]);
-
+  }, [auth?.user?._id]);
   const loadOrders = async () => {
     try {
-      setLoading(true);
-      const { data } = await axios.get(
-        `http://localhost:8000/order/getOrders/${auth?.user?._id}`
-      );
+      if (auth?.user) {
+        setLoading(true);
+        const { data } = await axios.get(
+          `http://localhost:8000/order/getOrders/${auth?.user?._id}`
+        );
+        setLoading(false);
+        setOrders(data?.orders);
+      }
+    } catch (err) {
+      console.log(err);
       setLoading(false);
-      setOrders(data?.orders);
+      setError(err);
+    }
+  };
+  const cancelOrder = async (value) => {
+    try {
+      if (value?.status !== "Cancel") {
+        setLoading(true);
+        const { data } = await axios.delete(
+          `http://localhost:8000/order/cancel-Orders/${value?._id}`
+        );
+        if (data.success) {
+          setLoading(false);
+          loadOrders();
+        }
+        return;
+      }
+      setLoading(true);
+      const { data } = await axios.delete(
+        `http://localhost:8000/order/remove-Orders/${value?._id}`
+      );
+      if (data.success) {
+        setLoading(false);
+        loadOrders();
+      }
     } catch (err) {
       setLoading(false);
       setError(err);
@@ -45,13 +74,13 @@ export const Orders = () => {
           </div>
         </div>
       ) : (
-        <div className="container-fluid m-3 p-3 min-vh-100">
+        <div className="container-fluid mt-3 p-3 min-vh-100">
           <div className="row">
             <div className="col-md-3">
               <UserMenu />
             </div>
             <div className="col-md-9">
-              {orders.length > 0 ? (
+              {orders?.length > 0 ? (
                 <>
                   <h1 className="text-center">All Orders</h1>
                   {orders?.map((value, index) => {
@@ -64,7 +93,7 @@ export const Orders = () => {
                               <th scope="col">Status</th>
                               <th scope="col">Buyer</th>
                               <th scope="col">Date</th>
-                              <th scope="col">Quantity</th>
+                              <th scope="col">Products</th>
                               <th scope="col">Action</th>
                             </tr>
                           </thead>
@@ -76,8 +105,13 @@ export const Orders = () => {
                               <td>{moment(value?.createdAt).fromNow()}</td>
                               <td>{value?.products?.length}</td>
                               <td>
-                                <button className="btn btn-danger">
-                                  Cancel
+                                <button
+                                  className="btn btn-danger"
+                                  onClick={() => cancelOrder(value)}
+                                >
+                                  {value?.status === "Cancel"
+                                    ? "Remove"
+                                    : "Cancel"}
                                 </button>
                               </td>
                             </tr>
@@ -101,6 +135,10 @@ export const Orders = () => {
                                     }
                                     className="card-img-top"
                                     alt={item.name}
+                                    style={{
+                                      aspectRatio: "4/2",
+                                      objectFit: "cover",
+                                    }}
                                   />
                                 </div>
                                 <div className="col-md-8">

@@ -57,19 +57,21 @@ export const Cart = () => {
       currency: "INR",
     });
   };
-
-  const addOrder = async () => {
+  const addOrder = async (value) => {
     try {
       const cartItems = cart.map((value) => value._id);
       const { data } = await axios.post(
         `http://localhost:8000/order/addOrder/${auth?.user?._id}`,
-        cartItems
+        { cartItems, value }
       );
-      if (data) {
+      if (data.success) {
         toast.success("Ordered Successfully!");
       }
     } catch (err) {
-      if (err) {
+      console.log(err);
+      if (err.response?.data?.error?.message) {
+        toast.error("Something went wrong");
+      } else {
         toast.error("Session expired please login");
         localStorage.removeItem("token");
         dispatch(logout());
@@ -115,7 +117,10 @@ export const Cart = () => {
                     <div className="row mb-2 p-3 card flex-row" key={value._id}>
                       <div className="col-md-4">
                         <img
-                          src={value&& `http://localhost:8000/product/product-photo/${value?._id}`}
+                          src={
+                            value &&
+                            `http://localhost:8000/product/product-photo/${value?._id}`
+                          }
                           className="card-img-top"
                           alt={value.name}
                           style={{ aspectRatio: "4/2", objectFit: "cover" }}
@@ -158,7 +163,7 @@ export const Cart = () => {
                           setPaymentLoading(true);
                           setTimeout(() => {
                             setPaymentLoading(false);
-                            addOrder();
+                            addOrder(auth?.user);
                           }, 3000);
                         }}
                       >
@@ -197,8 +202,7 @@ export const Cart = () => {
               <h4>
                 Dear <b>{auth?.user?.name.toUpperCase()}</b>,
               </h4>
-              Your Cart is Empty! Please{" "}
-              <Link onClick={() => navigate("/")}>ADD</Link> items!
+              Your Cart is Empty! Please <Link to="/">ADD</Link> items!
             </div>
           </div>
         )
@@ -208,8 +212,7 @@ export const Cart = () => {
           style={{ height: "100vh" }}
         >
           <div className="p-3 mb-2 alert alert-secondary text-center">
-            Please <Link onClick={() => navigate("/login")}>LOGIN</Link> to
-            checkout!
+            Please <Link to="/login">LOGIN</Link> to checkout!
           </div>
         </div>
       )}

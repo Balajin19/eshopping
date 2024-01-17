@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-export const Spinner = ({ path, token }) => {
+export const Spinner = ({ path }) => {
   const [count, setCount] = useState(2);
   const navigate = useNavigate();
   const location = useLocation();

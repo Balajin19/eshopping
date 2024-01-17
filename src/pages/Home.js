@@ -183,14 +183,21 @@ export const Home = () => {
                           key={item._id}
                         >
                           <img
-                            src={item&&`http://localhost:8000/product/product-photo/${item?._id}`}
+                            src={
+                              item &&
+                              `http://localhost:8000/product/product-photo/${item?._id}`
+                            }
                             className="card-img-top"
                             alt={item.name}
-                            style={{ aspectRatio: "3/2", objectFit: "cover" }}
+                            style={{ aspectRatio: "2/2", objectFit: "cover" }}
                           />
                           <div className="card-body">
                             <div className="card-title d-flex flex-row justify-content-between">
-                              <h5>{item.name}</h5>
+                              <h5>
+                                {item.name.length > 16
+                                  ? `${item.name?.substring(0, 16)}...`
+                                  : item.name}
+                              </h5>
                               <h5 className="text-success fw-bold">
                                 &#8377; {item.price}
                               </h5>

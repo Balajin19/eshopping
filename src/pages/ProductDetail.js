@@ -123,7 +123,7 @@ export const ProductDetail = () => {
                       }
                       className="card-img-top"
                       alt={item.name}
-                      style={{ aspectRatio: "4/2", objectFit: "cover" }}
+                      style={{ aspectRatio: "2/2", objectFit: "cover" }}
                     />
                     <div className="card-body">
                       <div className="card-title d-flex flex-row justify-content-between">

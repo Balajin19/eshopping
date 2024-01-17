@@ -121,15 +121,17 @@ export const loginData = (data, navigate, toast, location) => {
       });
   };
 };
-export const updatedProfile = (data, navigate, toast) => {
+export const updatedProfile = (value, navigate, toast) => {
   return async (dispatch) => {
-    dispatch(updateData(data));
-    await axios
-      .put("http://localhost:8000/update-profile", data)
+    dispatch(updateData(value));
+    const { data } = await axios
+      .put("http://localhost:8000/update-profile", value)
       .then((res) => {
-        dispatch(updateDataSuccess(res.data));
-        toast.success("Profile updated Successfully!");
-        navigate("/dashboard/user");
+        if (data.success) {
+          dispatch(updateDataSuccess(res.data));
+          toast.success("Profile updated Successfully!");
+          navigate("/dashboard/user");
+        }
       })
       .catch((err) => {
         toast.error(

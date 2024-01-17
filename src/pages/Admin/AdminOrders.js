@@ -9,6 +9,7 @@ import { SpinnerPage } from "../SpinnerPage";
 const { Option } = Select;
 export const AdminOrders = () => {
   const auth = useSelector((state) => state.Auth?.data);
+  const [st, setSt] = useState();
   const [status, setStatus] = useState([
     "Not Process",
     "Processing",
@@ -35,13 +36,18 @@ export const AdminOrders = () => {
   };
   const handleChange = async (id, value) => {
     try {
-      await axios.put(`http://localhost:8000/order/status/${id}`, {
-        status: value,
-      });
+      const { data } = await axios.put(
+        `http://localhost:8000/order/status/${id}`,
+        {
+          status: value,
+        }
+      );
+      if (data.success) getAllOrders();
     } catch (err) {
       setError(err);
     }
   };
+
   return (
     <>
       {loading ? (
@@ -78,7 +84,7 @@ export const AdminOrders = () => {
                               <th scope="col">Status</th>
                               <th scope="col">Buyer</th>
                               <th scope="col">Date</th>
-                              <th scope="col">Quantity</th>
+                              <th scope="col">Products</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -87,9 +93,10 @@ export const AdminOrders = () => {
                               <td>
                                 <Select
                                   bordered={false}
-                                  onChange={(status) =>
-                                    handleChange(value?._id, status)
-                                  }
+                                  onChange={(status) => {
+                                    setSt(status);
+                                    handleChange(value?._id, status);
+                                  }}
                                   defaultValue={value?.status || ""}
                                 >
                                   {status.map((st, index) => {
@@ -107,7 +114,10 @@ export const AdminOrders = () => {
                             </tr>
                           </tbody>
                         </table>
-                        <div className="container">
+                        <div
+                          className="container"
+                          style={{ minHeight: "auto" }}
+                        >
                           {value?.products?.map((item) => {
                             return (
                               <div
@@ -122,7 +132,10 @@ export const AdminOrders = () => {
                                     }
                                     className="card-img-top"
                                     alt={item.name}
-                                    // style={{ aspectRatio: "4/2", objectFit: "cover" }}
+                                    style={{
+                                      aspectRatio: "4/2",
+                                      objectFit: "cover",
+                                    }}
                                   />
                                 </div>
                                 <div className="col-md-8">
@@ -135,43 +148,7 @@ export const AdminOrders = () => {
                                         )}...`
                                       : item.description}
                                   </p>
-                                  {/* <h5>Quantity : {value.quantity}</h5> */}
-                                  {/* <h5>
-                          Quantity :{" "}
-                          <button
-                            className="qty-btn"
-                            onClick={() =>
-                              qtyUpdate(
-                                value?._id,
-                                "decrement",
-                                value?.quantity
-                              )
-                            }
-                            disabled={value?.quantity === 1}
-                          >
-                            -
-                          </button>
-                          {value?.quantity}
-                          <button
-                            className="qty-btn text-center"
-                            onClick={() =>
-                              qtyUpdate(
-                                value?._id,
-                                "increment",
-                                value?.quantity
-                              )
-                            }
-                          >
-                            +
-                          </button>
-                        </h5> */}
                                   <h4>Price : &#8377; {item.price}</h4>
-                                  {/* <button
-                          className="btn btn-danger"
-                          onClick={() => removeCartItem(value)}
-                        >
-                          Remove
-                        </button> */}
                                 </div>
                               </div>
                             );
