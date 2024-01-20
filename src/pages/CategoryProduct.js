@@ -38,7 +38,7 @@ export const CategoryProduct = () => {
   return (
     <>
       <PageTitle
-        title={`E Shopping - ${loading ? "Products" : category?.name}`}
+        title={`E Shopping - ${loading ? "Categories" : category?.name}`}
       />
       <div className="container mt-3" style={{ minHeight: "70vh" }}>
         {loading ? (

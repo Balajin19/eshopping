@@ -5,7 +5,7 @@ import {  useNavigate } from "react-router-dom";
 import { searchProduct } from "../store/Admin/Product/ProductActions";
 
 export const SearchInput = () => {
-  const [values, setValues] = useState();
+  const [values, setValues] = useState({ keyword: "" });
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const data = useSelector((state) => state.Products);
@@ -14,12 +14,16 @@ export const SearchInput = () => {
   }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (values.keyword.length > 0) {
-      dispatch(searchProduct(values.keyword));
-      navigate("/search");
-      setValues({ keyword: "" });
-    } else {
-      toast.error("Enter the name to search");
+    try {
+      if (values.keyword.length > 0) {
+        dispatch(searchProduct(values.keyword));
+        navigate("/search");
+        setValues({ keyword: "" });
+      } else {
+        toast.error("Enter the name to search");
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
   return (

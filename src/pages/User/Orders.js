@@ -60,7 +60,7 @@ export const Orders = () => {
   };
   return (
     <>
-      <PageTitle title={"Orders"} />
+      <PageTitle title={"E Shopping - Orders"} />
       {loading ? (
         <SpinnerPage />
       ) : error ? (
