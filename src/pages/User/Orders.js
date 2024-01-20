@@ -137,9 +137,11 @@ export const Orders = () => {
                                     }
                                     className="card-img-top"
                                     alt={item.name}
+                                    width="230"
+                                    height="230"
                                     style={{
                                       aspectRatio: "3/2",
-                                      objectFit: "cover",
+                                      objectFit: "contain",
                                     }}
                                   />
                                 </div>

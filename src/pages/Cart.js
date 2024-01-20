@@ -129,7 +129,9 @@ export const Cart = () => {
                             }
                             className="card-img-top"
                             alt={item.name}
-                            style={{ aspectRatio: "3/2", objectFit: "cover" }}
+                            width="230"
+                            height="200"
+                            style={{ aspectRatio: "3/2", objectFit: "contain" }}
                           />
                         </div>
                         <div className="col-md-8">

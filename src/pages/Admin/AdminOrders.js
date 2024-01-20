@@ -130,9 +130,11 @@ export const AdminOrders = () => {
                                     }
                                     className="card-img-top"
                                     alt={item?.name}
+                                    width="230"
+                                    height="230"
                                     style={{
-                                      aspectRatio: "2/2",
-                                      objectFit: "cover",
+                                      aspectRatio: "3/2",
+                                      objectFit: "contain",
                                     }}
                                   />
                                 </div>

@@ -190,7 +190,9 @@ export const Home = () => {
                             }
                             className="card-img-top"
                             alt={item.name}
-                            style={{ aspectRatio: "2/2", objectFit: "cover" }}
+                            width="250"
+                            height="250"
+                            style={{ aspectRatio: "2/2", objectFit: "contain" }}
                           />
                           <div className="card-body mb-0">
                             <div className="card-title d-flex flex-row justify-content-between">
