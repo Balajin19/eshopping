@@ -1,8 +1,12 @@
-import { useSelector } from "react-redux";
+import { toast } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { addCart } from "../store/CartActions";
 const API_URL = process.env.REACT_APP_API_URL;
 export const Search = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.Auth?.data?.user);
   const searchData = useSelector((state) => state.Products);
   return (
     <div className="container" style={{ minHeight: "70vh" }}>
@@ -22,10 +26,7 @@ export const Search = () => {
                 key={item._id}
               >
                 <img
-                  src={
-                    item &&
-                    `${API_URL}/product/product-photo/${item?._id}`
-                  }
+                  src={item && `${API_URL}/product/product-photo/${item?._id}`}
                   className="card-img-top"
                   alt={item.name}
                   style={{ aspectRatio: "2/2", objectFit: "cover" }}
@@ -40,8 +41,8 @@ export const Search = () => {
                     <h5 className="text-success">&#8377; {item.price}</h5>
                   </div>
                   <p className="card-text">
-                    {item.description.length > 30
-                      ? `${item.description?.substring(0, 30)}...`
+                    {item.description.length > 27
+                      ? `${item.description?.substring(0, 27)}...`
                       : item.description}
                   </p>
                   <button
@@ -50,7 +51,17 @@ export const Search = () => {
                   >
                     More Details
                   </button>
-                  <button className="btn btn-secondary ms-1">
+                  <button
+                    className="btn btn-secondary ms-1"
+                    onClick={() => {
+                      if (user) {
+                        dispatch(addCart(item, user, toast, navigate));
+                        return;
+                      }
+                      toast.error("Please Login to add cart!");
+                      navigate("/login");
+                    }}
+                  >
                     ADD TO CART
                   </button>
                 </div>

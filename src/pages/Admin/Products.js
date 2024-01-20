@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { AdminMenu } from "../../components/Layout/AdminMenu";
+import { PageTitle } from "../../components/PageTitle";
 import { SpinnerPage } from "../SpinnerPage";
 const API_URL = process.env.REACT_APP_API_URL;
 export const Products = () => {
@@ -27,6 +28,7 @@ export const Products = () => {
   };
   return (
     <>
+      <PageTitle title={"Products"} />
       {loading ? (
         <SpinnerPage />
       ) : error ? (
@@ -73,10 +75,15 @@ export const Products = () => {
                               }}
                             />
                             <div className="card-body">
-                              <h5 className="card-title">{item.name}</h5>
+                              <h5 className="card-title">
+                                {" "}
+                                {item.name.length > 16
+                                  ? `${item.name?.substring(0, 16)}...`
+                                  : item.name}
+                              </h5>
                               <p className="card-text">
-                                {item.description.length > 30
-                                  ? `${item.description.substring(0, 30)}...`
+                                {item.description.length > 27
+                                  ? `${item.description.substring(0, 27)}...`
                                   : item.description}
                               </p>
                             </div>

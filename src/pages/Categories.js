@@ -1,10 +1,12 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { PageTitle } from "../components/PageTitle";
 
 export const Categories = () => {
   const categories = useSelector( ( state ) => state.Categories );
   return (
     <>
+      <PageTitle title={"E Shopping - Categories"} />
       <div className="container" style={{ minHeight: "70vh" }}>
         <div className="row mb-4">
           {categories?.error ? (

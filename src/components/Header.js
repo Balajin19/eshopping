@@ -106,7 +106,9 @@ export const Header = () => {
                       data-bs-toggle="dropdown"
                       role="button"
                     >
-                      {auth.user?.name}
+                      {auth.user?.name.length > 10
+                        ? `${auth.user?.name?.substring(0, 10)}...`
+                        : auth.user?.name}
                     </Link>
                     <ul className="dropdown-menu" style={{ left: "-25px" }}>
                       <li>

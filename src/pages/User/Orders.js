@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { UserMenu } from "../../components/Layout/UserMenu";
+import { PageTitle } from "../../components/PageTitle";
 import { SpinnerPage } from "../SpinnerPage";
 const API_URL = process.env.REACT_APP_API_URL;
 export const Orders = () => {
@@ -59,6 +60,7 @@ export const Orders = () => {
   };
   return (
     <>
+      <PageTitle title={"Orders"} />
       {loading ? (
         <SpinnerPage />
       ) : error ? (
@@ -136,21 +138,14 @@ export const Orders = () => {
                                     className="card-img-top"
                                     alt={item.name}
                                     style={{
-                                      aspectRatio: "4/2",
+                                      aspectRatio: "3/2",
                                       objectFit: "cover",
                                     }}
                                   />
                                 </div>
                                 <div className="col-md-8">
                                   <h5>{item.name}</h5>
-                                  <p>
-                                    {item.description.length > 30
-                                      ? `${item.description?.substring(
-                                          0,
-                                          30
-                                        )}...`
-                                      : item.description}
-                                  </p>
+                                  <p>{item.description}</p>
                                   <h4>Price : &#8377; {item.price}</h4>
                                 </div>
                               </div>

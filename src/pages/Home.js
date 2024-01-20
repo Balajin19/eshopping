@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Prices } from "../components/Prices";
 import { addCart } from "../store/CartActions";
 import { SpinnerPage } from "./SpinnerPage";
+import { PageTitle } from "../components/PageTitle";
 const API_URL = process.env.REACT_APP_API_URL;
 export const Home = () => {
   const dispatch = useDispatch();
@@ -51,7 +52,9 @@ export const Home = () => {
   const allProducts = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`${API_URL}/product/product-list/${page}`);
+      const { data } = await axios.get(
+        `${API_URL}/product/product-list/${page}`
+      );
       setLoading(false);
       if (data?.success) {
         setProducts(data.products);
@@ -110,6 +113,7 @@ export const Home = () => {
   };
   return (
     <>
+      <PageTitle title={"E Shopping - Home Page"} />
       {loading ? (
         <SpinnerPage />
       ) : error || categories?.error ? (
@@ -188,7 +192,7 @@ export const Home = () => {
                             alt={item.name}
                             style={{ aspectRatio: "2/2", objectFit: "cover" }}
                           />
-                          <div className="card-body">
+                          <div className="card-body mb-0">
                             <div className="card-title d-flex flex-row justify-content-between">
                               <h5>
                                 {item.name.length > 16
@@ -200,8 +204,8 @@ export const Home = () => {
                               </h5>
                             </div>
                             <p className="card-text">
-                              {item.description.length > 30
-                                ? `${item.description?.substring(0, 30)}...`
+                              {item.description.length > 27
+                                ? `${item.description?.substring(0, 27)}...`
                                 : item.description}
                             </p>
                             <button
@@ -213,7 +217,14 @@ export const Home = () => {
                             <button
                               className="btn btn-secondary ms-1"
                               onClick={() => {
-                                dispatch(addCart(item, user, toast, navigate));
+                                if (user) {
+                                  dispatch(
+                                    addCart(item, user, toast, navigate)
+                                  );
+                                  return;
+                                }
+                                toast.error("Please Login to add cart!");
+                                navigate("/login");
                               }}
                             >
                               ADD TO CART

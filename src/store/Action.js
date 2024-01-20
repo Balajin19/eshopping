@@ -1,8 +1,13 @@
 import axios from "axios";
 const API_URL = process.env.REACT_APP_API_URL;
-const token = localStorage.getItem("token")
-  ? JSON.parse(localStorage.getItem("token"))
-  : "";
+// const token = localStorage.getItem("token")
+//   ? JSON.parse(localStorage.getItem("token"))
+//   : "";
+   axios.defaults.headers.common["Authorization"] = localStorage.getItem(
+     "token"
+   )
+     ? JSON.parse(localStorage.getItem("token"))
+     : "";
 export const load = () => {
   return {
     type: "LOAD",
@@ -65,11 +70,8 @@ export const error = (value) => {
 export const loadData = (toast, navigate) => {
   return async (dispatch) => {
     dispatch(load());
-    if (token) {
       await axios
-        .get(API_URL + "/user", {
-          headers: { Authorization: token },
-        })
+        .get( API_URL + "/user")
         .then((res) => {
           dispatch(loadSuccess(res.data));
         })
@@ -81,7 +83,6 @@ export const loadData = (toast, navigate) => {
           }
           dispatch(error(err));
         });
-    }
   };
 };
 

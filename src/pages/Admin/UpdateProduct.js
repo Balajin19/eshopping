@@ -6,6 +6,7 @@ import { AdminMenu } from "../../components/Layout/AdminMenu";
 import { Select } from "antd";
 import axios from "axios";
 import { loadCategories } from "../../store/Admin/Category/CategoryActions";
+import { PageTitle } from "../../components/PageTitle";
 const { Option } = Select;
 const API_URL = process.env.REACT_APP_API_URL;
 export const UpdateProduct = () => {
@@ -22,23 +23,23 @@ export const UpdateProduct = () => {
   const navigate = useNavigate();
   const categories = useSelector((state) => state.Categories);
 
-  const getProduct = async () => {
-    dispatch(loadCategories());
-    const { data } = await axios.get(
-      `${API_URL}/product/get-product/${params.slug}`
-    );
-    setId(data.product?._id);
-    setName(data.product?.name);
-    setDescription(data.product?.description);
-    setPrice(data.product?.price);
-    setQuantity(data.product?.quantity);
-    setShipping(data.product?.shipping);
-    setCategory(data.product?.category?._id);
-  };
-
+  
   useEffect(() => {
+    const getProduct = async () => {
+      dispatch(loadCategories());
+      const { data } = await axios.get(
+        `${API_URL}/product/get-product/${params.slug}`
+      );
+      setId(data.product?._id);
+      setName(data.product?.name);
+      setDescription(data.product?.description);
+      setPrice(data.product?.price);
+      setQuantity(data.product?.quantity);
+      setShipping(data.product?.shipping);
+      setCategory(data.product?.category?._id);
+    };
     getProduct();
-  }, [params.slug]);
+  }, [dispatch, params.slug]);
 
   const handleUpdate = async (e) => {
     try {
@@ -86,6 +87,7 @@ export const UpdateProduct = () => {
 
   return (
     <>
+      <PageTitle title={"Update Product"} />
       <div className="conatainer-fluid m-3 p-3 min-vh-100">
         <div className="row">
           <div className="col-md-3">
@@ -98,8 +100,7 @@ export const UpdateProduct = () => {
                 bordered={false}
                 placeholder="Select a Category"
                 size="large"
-                showSearch
-                className="form-select mb-3"
+                className="form-select mb-3 p-0"
                 onChange={(value) => setCategory(value)}
                 value={category || ""}
               >
@@ -186,8 +187,7 @@ export const UpdateProduct = () => {
                   bordered={false}
                   placeholder="Shipping"
                   size="large"
-                  showSearch
-                  className="form-select mb-3"
+                  className="form-select mb-3 p-0"
                   value={shipping ? "Yes" : "No" || ""}
                   onChange={(value) => setShipping(value)}
                 >

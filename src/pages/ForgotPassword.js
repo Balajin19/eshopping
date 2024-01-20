@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { PageTitle } from "../components/PageTitle";
 const API_URL = process.env.REACT_APP_API_URL;
 export const ForgotPassword = () => {
   const [email, setEmail] = useState();
@@ -32,6 +33,9 @@ export const ForgotPassword = () => {
       });
       if (data.success) {
         toast.success(data.message);
+        setAccess(data.success);
+      } else {
+        toast.error(data.message);
         setAccess(data.success);
       }
     } catch (err) {
@@ -84,74 +88,77 @@ export const ForgotPassword = () => {
     }
   };
   return (
-    <div className="form-container">
-      <div className="form">
-        <form onSubmit={formSubmit}>
-          <h4>Forgot Password</h4>
-          <div className="mb-3">
-            <input
-              type="email"
-              className="form-control"
-              placeholder="Enter your Email"
-              value={email || ""}
-              required
-              onChange={(e) => setEmail(e.target.value)}
-              disabled={access}
-            />
-          </div>
-          <button type="submit" className="btn btn-primary" hidden={access}>
-            Get OTP
-          </button>
-        </form>
-        <form onSubmit={OtpSubmit} hidden={!access || otpVerify}>
-          <div className="mb-2">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter your OTP"
-              value={otp || ""}
-              required
-              onChange={(e) => setOtp(e.target.value)}
-            />
-          </div>
-          <button
-            className="resendOtp-btn"
-            disabled={count > 0}
-            onClick={formSubmit}
-          >
-            {count === 0 ? "Resend OTP" : `Resend OTP after ${count} seconds`}
-          </button>
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
-        </form>
-        <form onSubmit={handlePassword} hidden={!otpVerify}>
-          <div className="mb-3">
-            <input
-              type="password"
-              className="form-control"
-              placeholder="Enter New Password"
-              value={password || ""}
-              required
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="password"
-              className="form-control"
-              placeholder="Enter Confirm Password"
-              required
-              onInput={(e) => comparePassword(e)}
-            />
-            {error && <p className="text-danger">Password doesn't match</p>}
-          </div>
-          <button type="submit" className="btn btn-primary" disabled={error}>
-            Change Password
-          </button>
-        </form>
+    <>
+      <PageTitle title={"Forgot Password"} />
+      <div className="form-container">
+        <div className="form">
+          <form onSubmit={formSubmit}>
+            <h4>Forgot Password</h4>
+            <div className="mb-3">
+              <input
+                type="email"
+                className="form-control"
+                placeholder="Enter your Email"
+                value={email || ""}
+                required
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={access}
+              />
+            </div>
+            <button type="submit" className="btn btn-primary" hidden={access}>
+              Get OTP
+            </button>
+          </form>
+          <form onSubmit={OtpSubmit} hidden={!access || otpVerify}>
+            <div className="mb-2">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Enter your OTP"
+                value={otp || ""}
+                required
+                onChange={(e) => setOtp(e.target.value)}
+              />
+            </div>
+            <button
+              className="resendOtp-btn"
+              disabled={count > 0}
+              onClick={formSubmit}
+            >
+              {count === 0 ? "Resend OTP" : `Resend OTP after ${count} seconds`}
+            </button>
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button>
+          </form>
+          <form onSubmit={handlePassword} hidden={!otpVerify}>
+            <div className="mb-3">
+              <input
+                type="password"
+                className="form-control"
+                placeholder="Enter New Password"
+                value={password || ""}
+                required
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div className="mb-3">
+              <input
+                type="password"
+                className="form-control"
+                placeholder="Enter Confirm Password"
+                required
+                onInput={(e) => comparePassword(e)}
+              />
+              {error && <p className="text-danger">Password doesn't match</p>}
+            </div>
+            <button type="submit" className="btn btn-primary" disabled={error}>
+              Change Password
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
  

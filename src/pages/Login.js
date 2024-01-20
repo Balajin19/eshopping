@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { loginData } from "../store/Action";
+import { PageTitle } from "../components/PageTitle";
 export const Login = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -16,6 +17,8 @@ export const Login = () => {
     dispatch(loginData(data, navigate, toast, location.state));
   };
   return (
+    <>
+      <PageTitle title={ "Login" } />
     <div className="form-container">
       <form onSubmit={formSubmit} className="form">
         <h3>Login Form</h3>
@@ -47,6 +50,7 @@ export const Login = () => {
         </button>
         <Link to="/forgot-password">Forgot password</Link>
       </form>
-    </div>
+      </div>
+      </>
   );
 };

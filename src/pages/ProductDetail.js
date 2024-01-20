@@ -74,7 +74,9 @@ export const ProductDetail = () => {
           <div className="row mt-4 w-100">
             <div className="col-md-6">
               <img
-                src={product && `${API_URL}/product/product-photo/${product?._id}`}
+                src={
+                  product && `${API_URL}/product/product-photo/${product?._id}`
+                }
                 className="card-img-top"
                 alt={product?.name}
                 width={"350px"}
@@ -92,7 +94,12 @@ export const ProductDetail = () => {
               <button
                 className="btn btn-primary ms-1 mt-2 w-50"
                 onClick={() => {
-                  dispatch(addCart(product, user, toast, navigate));
+                  if (user) {
+                    dispatch(addCart(product, user, toast, navigate));
+                    return;
+                  }
+                  toast.error("Please Login to add cart!");
+                  navigate("/login");
                 }}
               >
                 ADD TO CART
@@ -114,7 +121,9 @@ export const ProductDetail = () => {
                     key={item._id}
                   >
                     <img
-                      src={item && `${API_URL}/product/product-photo/${item?._id}`}
+                      src={
+                        item && `${API_URL}/product/product-photo/${item?._id}`
+                      }
                       className="card-img-top"
                       alt={item.name}
                       style={{ aspectRatio: "2/2", objectFit: "cover" }}
@@ -124,11 +133,7 @@ export const ProductDetail = () => {
                         <h5>{item.name}</h5>
                         <h5 className="text-success">&#8377; {item.price}</h5>
                       </div>
-                      <p className="card-text">
-                        {item.description.length > 30
-                          ? `${item.description?.substring(0, 30)}...`
-                          : item.description}
-                      </p>
+                      <p className="card-text">{item.description}</p>
                       <button
                         className="btn btn-primary ms-1"
                         onClick={() => navigate(`/product/${item.slug}`)}
@@ -138,7 +143,12 @@ export const ProductDetail = () => {
                       <button
                         className="btn btn-secondary ms-1"
                         onClick={() => {
-                          dispatch(addCart(item, user, toast, navigate));
+                          if (user) {
+                            dispatch(addCart(item, user, toast, navigate));
+                            return;
+                          }
+                          toast.error("Please Login to add cart!");
+                          navigate("/login");
                         }}
                       >
                         ADD TO CART

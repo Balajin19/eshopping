@@ -41,7 +41,7 @@ function App() {
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("token")))
       dispatch(loadData(toast, navigate));
-  }, [dispatch]);
+  }, [dispatch, navigate]);
   return (
     <div className="App">
       <Toaster />
@@ -56,7 +56,6 @@ function App() {
           path="/register"
           element={!isAuthenticated() ? <Register /> : <Navigate to="/" />}
         ></Route>
-
         <Route path="/search" element={<Search />} />
         <Route path="/product/:slug" element={<ProductDetail />} />
         <Route path="/categories" element={<Categories />} />

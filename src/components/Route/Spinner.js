@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export const Spinner = ({ path }) => {
-  const [count, setCount] = useState(2);
+  const [count, setCount] = useState(3);
   const navigate = useNavigate();
   const location = useLocation();
   useEffect(() => {
@@ -17,7 +17,7 @@ export const Spinner = ({ path }) => {
       style={{ height: "100vh" }}
     >
       <h1 className="text-center">
-        redirected you to {path === "" ? "Home" : "Login"} page in {count}{" "}
+        redirected you to {path === "login" ? "Login" : "Home"} page in {count}{" "}
         seconds
       </h1>
       <div className="spinner-border" role="status">

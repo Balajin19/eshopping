@@ -5,13 +5,13 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { AdminMenu } from "../../components/Layout/AdminMenu";
+import { PageTitle } from "../../components/PageTitle";
 import { SpinnerPage } from "../SpinnerPage";
 const API_URL = process.env.REACT_APP_API_URL;
 const { Option } = Select;
 export const AdminOrders = () => {
   const auth = useSelector((state) => state.Auth?.data);
-  const [st, setSt] = useState();
-  const [status, setStatus] = useState([
+  const [status] = useState([
     "Not Process",
     "Processing",
     "Shipped",
@@ -48,6 +48,7 @@ export const AdminOrders = () => {
 
   return (
     <>
+      <PageTitle title={"Admin Orders"} />
       {loading ? (
         <SpinnerPage />
       ) : error ? (
@@ -92,7 +93,6 @@ export const AdminOrders = () => {
                                 <Select
                                   bordered={false}
                                   onChange={(status) => {
-                                    setSt(status);
                                     handleChange(value?._id, status);
                                   }}
                                   defaultValue={value?.status || ""}
@@ -126,26 +126,19 @@ export const AdminOrders = () => {
                                   <img
                                     src={
                                       item &&
-                                      `${API_URL}/product-photo/${item?._id}`
+                                      `${API_URL}/product/product-photo/${item?._id}`
                                     }
                                     className="card-img-top"
-                                    alt={item.name}
+                                    alt={item?.name}
                                     style={{
-                                      aspectRatio: "4/2",
+                                      aspectRatio: "2/2",
                                       objectFit: "cover",
                                     }}
                                   />
                                 </div>
                                 <div className="col-md-8">
                                   <h5>{item.name}</h5>
-                                  <p>
-                                    {item.description.length > 30
-                                      ? `${item.description?.substring(
-                                          0,
-                                          30
-                                        )}...`
-                                      : item.description}
-                                  </p>
+                                  <p>{item.description}</p>
                                   <h4>Price : &#8377; {item.price}</h4>
                                 </div>
                               </div>
