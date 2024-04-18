@@ -1,5 +1,7 @@
+import "../index.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { AdminMenu } from "../../components/Layout/AdminMenu";
@@ -8,24 +10,65 @@ import { SpinnerPage } from "../SpinnerPage";
 const API_URL = process.env.REACT_APP_API_URL;
 export const Products = () => {
   const auth = useSelector((state) => state.Auth?.data);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [loadMoreProducts, setLoadMoreProducts] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [products, setProducts] = useState([]);
   useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        setLoading(true);
+        const { data } = await axios.get(
+          `${API_URL}/product/product-list/${page}`
+        );
+        setLoading(false);
+        setProducts(data?.products);
+      } catch (err) {
+        setLoading(false);
+        setError(err);
+      }
+    };
     loadProducts();
+    getTotal();
   }, [auth?.token]);
+  useEffect(() => {
+    const loadmore = async () => {
+      try {
+        setLoadMoreProducts(true);
+        const { data } = await axios.get(
+          `${API_URL}/product/product-list/${page}`
+        );
+        setLoadMoreProducts(false);
+        if (data?.success) {
+          setProducts([...products, ...data.products]);
+        } else {
+          toast.error(data?.message);
+        }
+      } catch (err) {
+        setError(err);
+        setLoadMoreProducts(false);
+      }
+    };
+    if (page === 1) return;
+    loadmore();
+  }, [page]);
 
-  const loadProducts = async () => {
+  const getTotal = async () => {
     try {
-      setLoading(true);
-      const { data } = await axios.get(API_URL + "/product/all-products");
-      setLoading(false);
-      setProducts(data.allProducts);
+      const { data } = await axios.get(API_URL + "/product/product-count");
+
+      if (data?.success) {
+        setTotal(data.total);
+      } else {
+        toast.error(data?.message);
+      }
     } catch (err) {
-      setLoading(false);
       setError(err);
     }
   };
+
   return (
     <>
       <PageTitle title={"Products"} />
@@ -44,10 +87,12 @@ export const Products = () => {
           </div>
         </div>
       ) : (
-        <div className="conatainer-fluid m-3 p-3 min-vh-100">
+        <div className="container-fluid m-3 p-3 min-vh-100">
           <div className="row">
             <div className="col-md-3">
-              <AdminMenu />
+              <div className="admin-sidebar">
+                <AdminMenu />
+              </div>
             </div>
             <div className="col-md-9">
               {products?.length > 0 ? (
@@ -69,9 +114,11 @@ export const Products = () => {
                               }
                               className="card-img-top"
                               alt={item.name}
+                              width="230"
+                              height="230"
                               style={{
                                 aspectRatio: "2/2",
-                                objectFit: "cover",
+                                objectFit: "contain",
                               }}
                             />
                             <div className="card-body">
@@ -106,6 +153,20 @@ export const Products = () => {
                   </div>
                 </div>
               )}
+
+              <div className="m-2 p-3">
+                {products && products.length < total && (
+                  <button
+                    className="btn btn-warning"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setPage(page + 1);
+                    }}
+                  >
+                    {loadMoreProducts ? "Loading..." : "Loadmore"}
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>

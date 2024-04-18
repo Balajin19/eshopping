@@ -1,3 +1,4 @@
+import "../index.css";
 import axios from "axios";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -45,7 +46,9 @@ export const AdminDashboard = () => {
         <div className="container-fluid mt-3 mb-5 p-3">
           <div className="row">
             <div className="col-md-3">
-              <AdminMenu />
+              <div className="admin-sidebar">
+                <AdminMenu />
+              </div>
             </div>
             <div className="col-md-9">
               <div className="card p-4">

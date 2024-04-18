@@ -135,3 +135,10 @@
 }
 
 
+
+
+.admin-sidebar{
+ position: -webkit-sticky;
+  position: sticky;
+  top:16%
+}

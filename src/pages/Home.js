@@ -57,7 +57,7 @@ export const Home = () => {
       );
       setLoading(false);
       if (data?.success) {
-        setProducts(data.products);
+        setProducts(data?.products);
       } else {
         toast.error(data?.message);
       }

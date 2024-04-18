@@ -111,7 +111,9 @@ export const Orders = () => {
                                   className="btn btn-danger"
                                   onClick={() => cancelOrder(value)}
                                 >
-                                  {value?.status === "Cancel"
+                                  {value?.status === "Cancel" ||
+                                  value?.status === "Delivered" ||
+                                  value?.status === "Not Process"
                                     ? "Remove"
                                     : "Cancel"}
                                 </button>

@@ -1,4 +1,5 @@
 import axios from "axios";
+import React from "react";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -33,3 +34,4 @@ export const PrivateRoute = () => {
   if (!isDataLoaded) return <SpinnerPage />;
   return access ? <Outlet /> : <Spinner path={!token ? "login" : ""} />;
 };
+

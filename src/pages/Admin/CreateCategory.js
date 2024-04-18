@@ -102,7 +102,7 @@ export const CreateCategory = () => {
       {loading ? (
         <SpinnerPage />
       ) : (
-        <div className="conatainer-fluid m-3 p-3 min-vh-100">
+        <div className="container-fluid m-3 p-3 min-vh-100">
           <div className="row">
             <div className="col-md-3">
               <AdminMenu />

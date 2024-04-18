@@ -45,6 +45,16 @@ export const AdminOrders = () => {
       setError(err);
     }
   };
+  const cancelOrder = async (value) => {
+    setLoading(true);
+    const { data } = await axios.delete(
+      `${API_URL}/order/remove-Orders/${value?._id}`
+    );
+    if (data.success) {
+      setLoading(false);
+      getAllOrders();
+    }
+  };
 
   return (
     <>
@@ -64,7 +74,7 @@ export const AdminOrders = () => {
           </div>
         </div>
       ) : (
-        <div className="conatainer-fluid m-3 p-3 min-vh-100">
+        <div className="container-fluid m-3 p-3 min-vh-75">
           <div className="row">
             <div className="col-md-3">
               <AdminMenu />
@@ -84,6 +94,16 @@ export const AdminOrders = () => {
                               <th scope="col">Buyer</th>
                               <th scope="col">Date</th>
                               <th scope="col">Products</th>
+                              <th
+                                scope="col"
+                                hidden={
+                                  value?.status === "Processing" ||
+                                  value?.status === "Confirmed" ||
+                                  value?.status === "Shipped"
+                                }
+                              >
+                                Action
+                              </th>
                             </tr>
                           </thead>
                           <tbody>
@@ -109,6 +129,19 @@ export const AdminOrders = () => {
                               <td>{value?.buyer?.name}</td>
                               <td>{moment(value?.createdAt).fromNow()}</td>
                               <td>{value?.products?.length}</td>
+                              <td>
+                                <button
+                                  className="btn btn-danger"
+                                  hidden={
+                                    value?.status === "Processing" ||
+                                    value?.status === "Confirmed" ||
+                                    value?.status === "Shipped"
+                                  }
+                                  onClick={() => cancelOrder(value)}
+                                >
+                                  Remove
+                                </button>
+                              </td>
                             </tr>
                           </tbody>
                         </table>
